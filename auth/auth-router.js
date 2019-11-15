@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const secrets =require('../sercret')
 
 const Users = require('../database/helpers/usermodle')
 
@@ -9,10 +10,10 @@ const {validateUser} = require('../database/helpers/user-helpers')
 router.post('/register', (req, res) => {
   // implement registration
   let user = req.body;
-  // always validate the data before sending it to the db
+  // validate the user 
   const validateResult = validateUser(user);
   if (validateResult.isSuccessful === true) {
-    const hash = bcrypt.hashSync(user.password, 10); // 2 ^ n
+    const hash = bcrypt.hashSync(user.password, 10); 
     user.password = hash;
 
     Users.add(user)
@@ -59,7 +60,6 @@ router.post('/login', (req, res) => {
 function getJwtToken(username) {
   const payload = {
     username,
- // this will probably come from the database
   };
 
   const secret = process.env.JWT_SECRET || "is it secret, is it safe?";

@@ -1,5 +1,4 @@
 const router = require("express").Router();
-
 const Users = require("../database/helpers/usermodle");
 
 // GET - all users 
